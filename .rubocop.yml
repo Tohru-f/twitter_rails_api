@@ -8,3 +8,9 @@ AllCops:
   NewCops: enable
 RSpec/MultipleExpectations:
   Max: 2
+Layout/LineLength:
+  Max: 160
+Metrics/AbcSize:
+  Max: 25
+Metrics/MethodLength:
+  Max: 30
