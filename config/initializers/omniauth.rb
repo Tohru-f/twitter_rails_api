@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'omniauth'
+
 OmniAuth.config.silence_get_warning = true # getリクエストの時の警告を無くす
 # credentials.yml.encの内容を参照して承認する
 Rails.application.config.middleware.use OmniAuth::Builder do
