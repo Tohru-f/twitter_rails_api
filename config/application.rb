@@ -39,5 +39,7 @@ module Myapp
     config.session_store :cookie_store, key: '_interslice_session'
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options
+    config.action_controller.allow_forgery_protection = false
+    config.i18n.default_locale = :ja
   end
 end
