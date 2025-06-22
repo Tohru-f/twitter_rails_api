@@ -344,6 +344,7 @@ DEPENDENCIES
   factory_bot_rails
   image_processing (~> 1.2)
   letter_opener_web (~> 3.0)
+  omniauth
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
   pg (~> 1.1)

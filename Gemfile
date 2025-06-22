@@ -55,6 +55,7 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem 'letter_opener_web', '~> 3.0'
+  gem 'omniauth'
   gem 'omniauth-google-oauth2'
   gem 'omniauth-rails_csrf_protection'
   gem 'pry-byebug'
