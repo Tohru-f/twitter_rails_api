@@ -4,6 +4,9 @@ module Api
   module V1
     class OmniauthCallbacksController < ApplicationController
       def redirect_callbacks
+        auth = request.env['omniauth.auth']
+        return if auth.nil?
+
         # request.env['omniauth.auth']にリクエストパラメーターにユーザー情報が入ってくる
         user = User.from_omniauth(request.env['omniauth.auth'])
         if user.persisted?
