@@ -11,6 +11,12 @@ RSpec/MultipleExpectations:
 Layout/LineLength:
   Max: 160
 Metrics/AbcSize:
-  Max: 25
-Metrics/MethodLength:
   Max: 30
+Metrics/MethodLength:
+  Max: 35
+Metrics/BlockLength:
+  Exclude:
+    - "config/environments/*"
+Hc/RailsSpecificActionName:
+  Exclude:
+    - app/controllers/api/v1/omniauth_callbacks_controller.rb
