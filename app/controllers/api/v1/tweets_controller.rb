@@ -6,6 +6,13 @@ module Api
       before_action :set_user, only: %i[create]
       before_action :authenticate_api_v1_user!, only: %i[create]
 
+      def index
+        limit_params = params[:limit]&.to_i
+        offset_params = params[:offset]&.to_i
+        @tweets = Tweet.all.order(created_at: 'DESC').limit(limit_params).offset(offset_params)
+        render json: { stats: 'SUCCESS', message: 'Have gotten all tweets', data: { tweets: @tweets, count: Tweet.all.count } }, include: [:user]
+      end
+
       def create
         # current_userに紐づけてtweetを生成する
         @tweet = @user.tweets.new(tweet_params)
