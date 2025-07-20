@@ -16,7 +16,7 @@ Rails.application.routes.draw do
         omniauth_callbacks: 'api/v1/omniauth_callbacks'
       }
       resources :sessions, only: %i[index]
-      resources :tweets, only: %i[create index]
+      resources :tweets, only: %i[create index show]
       resources :images, only: %i[create]
     end
   end
