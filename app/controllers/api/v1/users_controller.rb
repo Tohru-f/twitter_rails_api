@@ -3,7 +3,7 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :set_user, only: %i[show update]
+      before_action :set_user, only: %i[show]
 
       def show
         @tweets = @user.tweets.order(created_at: 'DESC')
@@ -32,7 +32,8 @@ module Api
       end
 
       def info
-        render json: { status: 'SUCCESS', message: 'Have gotten user info', data: { user: current_api_v1_user } }
+        render json: { status: 'SUCCESS', message: 'Have gotten user info', data: { user: current_api_v1_user } },
+               include: { tweets: { methods: %i[image_urls], include: { user: { methods: %i[header_urls icon_urls] } } } }
       end
 
       private

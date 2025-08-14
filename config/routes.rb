@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'users/show'
-  get 'users/update'
-  resources :tasks
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
@@ -14,6 +11,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'users' => 'users#info'
+      put 'profile' => 'users#update'
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/registrations',
         omniauth_callbacks: 'api/v1/omniauth_callbacks'
@@ -21,7 +19,7 @@ Rails.application.routes.draw do
       resources :sessions, only: %i[index]
       resources :tweets, only: %i[create index show]
       resources :images, only: %i[create]
-      resources :users, only: %i[update show]
+      resources :users, only: %i[show]
     end
   end
 end

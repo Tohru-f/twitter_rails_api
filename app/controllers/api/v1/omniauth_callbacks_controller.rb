@@ -14,7 +14,7 @@ module Api
           token = user.create_new_auth_token
           if user.save
             # フロントエンド側でトークン情報を取得できるようにURLにパラメーター内にトークン情報を入れる
-            redirect_to "http://localhost:5173?status=success&access-token=#{token['access-token']}&uid=#{user.uid}&client=#{token['client']}&expiry=#{token['expiry']}&login_userid=#{user.id}&name=#{user.name}&profile=#{user.profile}&location=#{user.location}&website=#{user.website}&birthday=#{user.birthday}",
+            redirect_to "http://localhost:5173?status=success&access-token=#{token['access-token']}&uid=#{user.uid}&client=#{token['client']}&expiry=#{token['expiry']}&name=#{user.name}&profile=#{user.profile}&location=#{user.location}&website=#{user.website}&birthday=#{user.birthday}",
                         allow_other_host: true
             # パラメーターに他のユーザー情報を追加して取得できるようにする
           end
