@@ -11,11 +11,14 @@ module Api
         limit_params = params[:limit]&.to_i
         offset_params = params[:offset]&.to_i
         @tweets = Tweet.all.order(created_at: 'DESC').limit(limit_params).offset(offset_params)
-        render json: { stats: 'SUCCESS', message: 'Have gotten all tweets', data: { tweets: @tweets, count: Tweet.all.count } }, include: [:user]
+        # 投稿データに付随してユーザーデータを取得、画像取得に必要なメソッドも追加で指定
+        render json: { status: 'SUCCESS', message: 'Have gotten all tweets', data: { tweets: @tweets, count: Tweet.all.count } },
+               include: { user: { methods: %i[header_urls icon_urls], include: :tweets } }
       end
 
       def show
-        render json: { status: 'SUCCESS', message: 'Have gotten requested tweet', data: { tweet: @tweet } }, include: [:user]
+        render json: { status: 'SUCCESS', message: 'Have gotten requested tweet', data: { tweet: @tweet } },
+               include: { user: { methods: %i[header_urls icon_urls] } }
       end
 
       def create
@@ -24,6 +27,7 @@ module Api
         if @tweet.save
           # パラメーターにimage_idsが含まれている場合、アップロードされたデータであるBlobから該当のidを持つデータを取得
           # 取得した画像データをツイートに紐づける
+          # binding.pry
           if params[:tweet][:image_ids]
             blobs = ActiveStorage::Blob.where(id: params[:tweet][:image_ids])
             @tweet.images.attach(blobs)

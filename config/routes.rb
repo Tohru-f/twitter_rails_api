@@ -11,13 +11,16 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      mount_devise_token_auth_for 'User', at: 'users', controllers: {
+      get 'users' => 'users#info'
+      put 'profile' => 'users#update'
+      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/registrations',
         omniauth_callbacks: 'api/v1/omniauth_callbacks'
       }
       resources :sessions, only: %i[index]
       resources :tweets, only: %i[create index show]
       resources :images, only: %i[create]
+      resources :users, only: %i[show]
     end
   end
 end

@@ -6,6 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:google_oauth2]
   has_many :tweets, dependent: :destroy
+  has_one_attached :icon
+  has_one_attached :header
   validates :phone_number, presence: true
   validates :email, presence: true, uniqueness: true
   validates :birthday, presence: true
@@ -23,5 +25,27 @@ class User < ApplicationRecord
       user.birthday = '20250101'
     end
   end
+
+  # オブジェクトをJSON形式に変換する際の出力内容をカスタマイズする。通常の属性(idやname)に加えてimage_urlsメソッドの返り値も含める
+  # as_jsonはrender json: で自動的に呼び出される
+  def as_json(options = {})
+    super(options.merge(methods: %i[header_urls icon_urls]))
+  end
+
+  # ユーザーに紐づくヘッダー画像からファイルのアクセスURLを生成し、配列で返す。
+  def header_urls
+    return unless header.attached?
+
+    url_for(header)
+  end
+
+  # ユーザーに紐づくアイコン画像からファイルのアクセスURLを生成し、配列で返す。
+  def icon_urls
+    return unless icon.attached?
+
+    url_for(icon)
+  end
+
   include DeviseTokenAuth::Concerns::User
+  include Rails.application.routes.url_helpers
 end
