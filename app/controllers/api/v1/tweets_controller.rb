@@ -5,7 +5,7 @@ module Api
     class TweetsController < ApplicationController
       before_action :set_user, only: %i[create]
       before_action :authenticate_api_v1_user!, only: %i[create]
-      before_action :set_tweet, only: %i[show]
+      before_action :set_tweet, only: %i[show destroy]
 
       def index
         limit_params = params[:limit]&.to_i
@@ -35,6 +35,14 @@ module Api
           render json: { status: 'SUCCESS', message: 'Saved tweet', data: { id: @tweet.id, content: @tweet.content, images: @tweet.image_urls } }
         else
           render json: { status: 'ERROR', message: 'Tweet not saved', data: @tweet.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        if @tweet.destroy!
+          render json: { status: 'SUCCESS', message: 'Tweet successfully deleted' }
+        else
+          render json: { stauts: 'ERROR', message: 'Tweet not deleted' }
         end
       end
 

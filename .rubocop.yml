@@ -21,3 +21,6 @@ Hc/RailsSpecificActionName:
   Exclude:
     - app/controllers/api/v1/omniauth_callbacks_controller.rb
     - app/controllers/api/v1/users_controller.rb
+RSpec/ExampleLength:
+  Exclude:
+    - spec/requests/api/v1/tweets_spec.rb
