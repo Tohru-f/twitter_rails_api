@@ -10,6 +10,8 @@ services:
     image: postgres:14.6
     environment:
       POSTGRES_PASSWORD: password
+    volumes:
+      - test-db:/var/lib/postgresql/data
   api:
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
@@ -25,3 +27,4 @@ services:
 volumes:
   bundle:
   db:
+  test-db:
