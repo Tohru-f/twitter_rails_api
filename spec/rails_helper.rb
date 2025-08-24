@@ -65,4 +65,5 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include AuthorizationHelper, type: :request
+  config.include FactoryBot::Syntax::Methods
 end

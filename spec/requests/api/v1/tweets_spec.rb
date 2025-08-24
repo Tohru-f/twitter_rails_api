@@ -5,10 +5,12 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Tweets' do
   describe '/api/v1/tweets' do
     # 全てのテストで事前に作成したユーザーデータを使用する。confirmed_atに日付を入れることでユーザーを有効にする
+    # createはFactoryBot.createの略
     let(:user_a) { create(:user, name: 'ユーザーA', email: 'a@sample.com', password: 'password', confirmed_at: Time.zone.today) }
 
     it '投稿を削除する' do
       auth_tokens = sign_in(user_a)
+      # createはFactoryBot.createの略
       tweet = create(:tweet, content: 'Aのタスク', user: user_a)
 
       # 投稿データを削除して投稿データの総数が1個減っているか確認する
@@ -32,6 +34,7 @@ RSpec.describe 'Api::V1::Tweets' do
 
     it '投稿を全件取得' do
       auth_tokens = sign_in(user_a)
+      # createはFactoryBot.createの略
       create(:tweet, content: 'Aのタスク', user: user_a)
       create(:tweet, content: 'Bのタスク', user: user_a)
       create(:tweet, content: 'Cのタスク', user: user_a)
@@ -50,6 +53,7 @@ RSpec.describe 'Api::V1::Tweets' do
 
     it '特定の投稿を取得する' do
       auth_tokens = sign_in(user_a)
+      # createはFactoryBot.createの略
       tweet = create(:tweet, content: 'Aのタスク', user: user_a)
 
       get "/api/v1/tweets/#{tweet.id}", headers: auth_tokens
