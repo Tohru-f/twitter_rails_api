@@ -63,3 +63,8 @@ group :development do
   gem 'pry-rails'
   gem 'rails-i18n'
 end
+
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+end
