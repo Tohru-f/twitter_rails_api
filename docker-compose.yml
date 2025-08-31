@@ -2,16 +2,15 @@ version: "3"
 services:
   db:
     image: postgres:14.6
+    container_name: postgres_multi_db
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_MULTIPLE_DATABASES: dev, test # 一つのコンテナにdevとtest２つのデータベースを作成
     volumes:
+      - ./init-multiple-databases.sh:/docker-entrypoint-initdb.d/init-multiple-databases.sh
       - db:/var/lib/postgresql/data
-  test-db:
-    image: postgres:14.6
-    environment:
-      POSTGRES_PASSWORD: password
-    volumes:
-      - test-db:/var/lib/postgresql/data
+    restart: unless-stopped
   api:
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
@@ -27,4 +26,4 @@ services:
 volumes:
   bundle:
   db:
-  test-db:
+  # test-db:
