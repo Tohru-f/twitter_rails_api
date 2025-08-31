@@ -24,3 +24,4 @@ Hc/RailsSpecificActionName:
 RSpec/ExampleLength:
   Exclude:
     - spec/requests/api/v1/tweets_spec.rb
+    - spec/requests/api/v1/comments_spec.rb
