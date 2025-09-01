@@ -8,12 +8,11 @@ default: &default
 
 development:
   <<: *default
-  database: myapp_development
+  database: dev # postgresで生成したデータベース名
 
 test:
   <<: *default
-  database: myapp_test
-  host: test-db
+  database: test # postgresで生成したデータベース名
 
 production:
   <<: *default
