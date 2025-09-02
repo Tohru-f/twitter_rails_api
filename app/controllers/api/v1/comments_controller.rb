@@ -5,6 +5,12 @@ module Api
     class CommentsController < ApplicationController
       before_action :set_tweets, only: %i[create]
 
+      def index
+        @tweet = Tweet.find(params[:id])
+        render json: { status: 'SUCCESS', message: 'Have gotten all comments', data: { comments: @tweet.comments } },
+               include: { user: { methods: %i[header_urls icon_urls] } }
+      end
+
       def create
         @comment = @tweet.comments.new(comment_params)
         @comment.user = current_api_v1_user
