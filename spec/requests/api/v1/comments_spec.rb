@@ -22,5 +22,25 @@ RSpec.describe 'Api::V1::Comments' do
       # リクエスト成功を表す200が返却された確認する
       expect(response).to have_http_status(:ok)
     end
+
+    it 'コメントを全権取得する' do
+      auth_tokens = sign_in(user_a)
+      # createはFactoryBot.createの略
+      tweet = create(:tweet, content: 'Aのタスク', user: user_a)
+      create(:comment, content: 'コメントA', user: user_a, tweet:)
+      create(:comment, content: 'コメントB', user: user_a, tweet:)
+      create(:comment, content: 'コメントC', user: user_a, tweet:)
+
+      get "/api/v1/tweets/#{tweet.id}/comments", headers: auth_tokens
+
+      # status, messageは不要なので、commentsだけ指定して取得する
+      json = response.parsed_body['data']['comments']
+
+      # 作成された投稿データの数が正しく取得できたかどうかを確認する
+      expect(json.length).to eq(3)
+
+      # リクエスト成功を表す200が返却された確認する
+      expect(response).to have_http_status(:success)
+    end
   end
 end

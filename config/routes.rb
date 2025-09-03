@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'login_users' => 'login_users#show'
       put 'login_users' => 'login_users#update'
+      get 'tweets/:id/comments' => 'comments#index'
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/registrations',
         omniauth_callbacks: 'api/v1/omniauth_callbacks'
