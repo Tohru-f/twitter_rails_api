@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       resources :tweets, only: %i[create index show destroy]
       resources :images, only: %i[create]
       resources :users, only: %i[show]
-      resources :comments, only: %i[create]
+      resources :comments, only: %i[create destroy]
     end
   end
 end

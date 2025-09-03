@@ -42,5 +42,18 @@ RSpec.describe 'Api::V1::Comments' do
       # リクエスト成功を表す200が返却された確認する
       expect(response).to have_http_status(:success)
     end
+
+    it 'コメントを削除する' do
+      auth_tokens = sign_in(user_a)
+      # createはFactoryBot.createの略
+      tweet = create(:tweet, content: 'Aのタスク', user: user_a)
+      comment = create(:comment, content: 'お試しコメント', user: user_a, tweet:)
+
+      # コメントデータを削除して投稿データの総数が1個減っているか確認する
+      expect { delete "/api/v1/comments/#{comment.id}", headers: auth_tokens }.to change(Comment, :count).by(-1)
+
+      # リクエスト成功を表す200が返却された確認する
+      expect(response).to have_http_status(:ok)
+    end
   end
 end
