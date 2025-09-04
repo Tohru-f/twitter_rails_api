@@ -7,7 +7,8 @@ module Api
 
       def show
         @tweets = @user.tweets.order(created_at: 'DESC')
-        render json: { status: 'SUCCESS', message: "Have gotten user's tweets", data: { tweets: @tweets } },
+        @comments = @user.comments.order(created_at: 'DESC')
+        render json: { status: 'SUCCESS', message: "Have gotten user's tweets", data: { tweets: @tweets, comments: @comments } },
                include: { user: { methods: %i[header_urls icon_urls], include: :tweets } }
       end
 
