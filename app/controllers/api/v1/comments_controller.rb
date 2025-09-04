@@ -4,6 +4,7 @@ module Api
   module V1
     class CommentsController < ApplicationController
       before_action :set_tweets, only: %i[create]
+      before_action :set_comments, only: %i[destroy]
 
       def index
         @tweet = Tweet.find(params[:id])
@@ -22,7 +23,19 @@ module Api
         end
       end
 
+      def destroy
+        if @comment.destroy!
+          render json: { status: 'SUCCESS', message: 'Comment successfully deleted' }
+        else
+          render json: { status: 'ERROR', message: 'Comment not deleted' }
+        end
+      end
+
       private
+
+      def set_comments
+        @comment = Comment.find(params[:id])
+      end
 
       def set_tweets
         @tweet = Tweet.find(params[:tweet_id])

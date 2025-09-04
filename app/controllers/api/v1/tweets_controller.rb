@@ -42,7 +42,7 @@ module Api
         if @tweet.destroy!
           render json: { status: 'SUCCESS', message: 'Tweet successfully deleted' }
         else
-          render json: { stauts: 'ERROR', message: 'Tweet not deleted' }
+          render json: { status: 'ERROR', message: 'Tweet not deleted' }
         end
       end
 
