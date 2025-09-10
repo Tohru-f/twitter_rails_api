@@ -13,7 +13,8 @@ module Api
         @tweets = Tweet.all.order(created_at: 'DESC').limit(limit_params).offset(offset_params)
         # 投稿データに付随してユーザーデータを取得、画像取得に必要なメソッドも追加で指定
         render json: { status: 'SUCCESS', message: 'Have gotten all tweets', data: { tweets: @tweets, count: Tweet.all.count } },
-               include: [{ user: { methods: %i[header_urls icon_urls], include: :tweets } }, :comments]
+               include: [{ user: { methods: %i[header_urls icon_urls], include: :tweets } }, :comments,
+                         { retweets: { include: { user: { methods: %i[header_urls icon_urls] } } } }]
       end
 
       def show

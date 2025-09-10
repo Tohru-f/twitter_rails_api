@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'pry'
 
 RSpec.describe 'Api::V1::Tweets' do
   describe '/api/v1/tweets' do
