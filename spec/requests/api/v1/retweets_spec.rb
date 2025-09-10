@@ -26,6 +26,7 @@ RSpec.describe 'Api::V1::Retweets' do
 
       create(:retweet, user: user_a, tweet:)
 
+      # 作成したりツイートを削除できるかどうかをリツイートの総数が減ったことを確認して検証
       expect { delete "/api/v1/tweets/#{tweet.id}/retweets", headers: auth_tokens }.to change(Retweet, :count).by(-1)
 
       expect(response).to have_http_status(:success)

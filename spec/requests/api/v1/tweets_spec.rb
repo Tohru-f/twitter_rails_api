@@ -8,6 +8,7 @@ RSpec.describe 'Api::V1::Tweets' do
     # 全てのテストで事前に作成したユーザーデータを使用する。confirmed_atに日付を入れることでユーザーを有効にする
     # createはFactoryBot.createの略
     let(:user_a) { create(:user, name: 'ユーザーA', email: 'a@sample.com', password: 'password', confirmed_at: Time.zone.today) }
+    let(:user_b) { create(:user, name: 'ユーザーB', email: 'b@sample.com', password: 'password', confirmed_at: Time.zone.today) }
 
     it '投稿を削除する' do
       auth_tokens = sign_in(user_a)
@@ -19,6 +20,16 @@ RSpec.describe 'Api::V1::Tweets' do
 
       # リクエスト成功を表す200が返却された確認する
       expect(response).to have_http_status(:ok)
+    end
+
+    it '投稿を削除できない' do
+      auth_tokens_a = sign_in(user_a)
+      tweet = create(:tweet, content: 'Aのタスク', user: user_a)
+      sign_out(auth_tokens_a)
+      auth_tokens_b = sign_in(user_b)
+
+      # ユーザーAで作成した投稿をユーザーBで削除しようとする。API側でユーザー照合があるので失敗して数は減らないことを確認
+      expect { delete "/api/v1/tweets/#{tweet.id}", headers: auth_tokens_b }.not_to change(Tweet, :count)
     end
 
     it '新しい投稿を作成する' do

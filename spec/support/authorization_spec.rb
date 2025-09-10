@@ -7,4 +7,8 @@ module AuthorizationHelper
     # ヘッダーデータの中でclient, access-token, uidのみを切り出す
     response.headers.slice('client', 'access-token', 'uid')
   end
+
+  def sign_out(headers)
+    delete '/api/v1/auth/sign_out/', headers:
+  end
 end

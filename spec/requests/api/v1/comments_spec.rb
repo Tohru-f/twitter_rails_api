@@ -6,6 +6,7 @@ require 'pry'
 RSpec.describe 'Api::V1::Comments' do
   describe 'api/v1/comments' do
     let(:user_a) { create(:user, name: 'ユーザーA', email: 'a@sample.com', password: 'password', confirmed_at: Time.zone.today) }
+    let(:user_b) { create(:user, name: 'ユーザーB', email: 'b@sample.com', password: 'password', confirmed_at: Time.zone.today) }
 
     it 'コメントを作成する' do
       auth_tokens = sign_in(user_a)
@@ -54,6 +55,20 @@ RSpec.describe 'Api::V1::Comments' do
 
       # リクエスト成功を表す200が返却された確認する
       expect(response).to have_http_status(:ok)
+    end
+
+    it 'コメントを削除できない' do
+      auth_tokens_a = sign_in(user_a)
+
+      tweet = create(:tweet, content: 'Aのタスク', user: user_a)
+      comment = create(:comment, content: 'お試しコメント', user: user_a, tweet:)
+
+      sign_out(auth_tokens_a)
+
+      auth_tokens_b = sign_in(user_b)
+
+      # ユーザーAで作成したコメントをユーザーBで削除しようとするとユーザー照合ではじかられるので、削除できずに数が減らないことを確認
+      expect { delete "/api/v1/comments/#{comment.id}", headers: auth_tokens_b }.not_to change(Comment, :count)
     end
   end
 end
