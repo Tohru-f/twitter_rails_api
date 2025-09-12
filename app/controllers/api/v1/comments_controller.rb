@@ -24,7 +24,8 @@ module Api
       end
 
       def destroy
-        if @comment.destroy!
+        if @comment.user.id == current_api_v1_user.id
+          @comment.destroy!
           render json: { status: 'SUCCESS', message: 'Comment successfully deleted' }
         else
           render json: { status: 'ERROR', message: 'Comment not deleted' }

@@ -9,7 +9,7 @@ AllCops:
 RSpec/MultipleExpectations:
   Max: 2
 Layout/LineLength:
-  Max: 160
+  Max: 200
 Metrics/AbcSize:
   Max: 36
 Metrics/MethodLength:

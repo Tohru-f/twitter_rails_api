@@ -14,7 +14,7 @@ module Api
         # 投稿データに付随してユーザーデータを取得、画像取得に必要なメソッドも追加で指定
         render json: { status: 'SUCCESS', message: 'Have gotten all tweets', data: { tweets: @tweets, count: Tweet.all.count } },
                include: [{ user: { methods: %i[header_urls icon_urls], include: :tweets } }, :comments,
-                         { retweets: { include: { user: { methods: %i[header_urls icon_urls] } } } }]
+                         { retweets: { include: { user: { methods: %i[header_urls icon_urls] } } } }, { favorites: { include: { user: { methods: %i[header_urls icon_urls] } } } }]
       end
 
       def show
@@ -40,7 +40,8 @@ module Api
       end
 
       def destroy
-        if @tweet.destroy!
+        if @tweet.user_id == current_api_v1_user.id
+          @tweet.destroy!
           render json: { status: 'SUCCESS', message: 'Tweet successfully deleted' }
         else
           render json: { status: 'ERROR', message: 'Tweet not deleted' }

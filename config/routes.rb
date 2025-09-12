@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       get 'tweets/:id/comments' => 'comments#index'
       post 'tweets/:id/retweets' => 'retweets#create'
       delete 'tweets/:id/retweets' => 'retweets#destroy'
+      post 'tweets/:id/favorites' => 'favorites#create'
+      delete 'tweets/:id/favorites' => 'favorites#destroy'
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/registrations',
         omniauth_callbacks: 'api/v1/omniauth_callbacks'
