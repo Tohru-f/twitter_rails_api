@@ -9,6 +9,15 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :retweets, dependent: :destroy
   has_many :favorites, dependent: :destroy
+
+  # ログインユーザーがフォローするユーザー情報を取得するアソシエーション
+  has_many :relations, dependent: :destroy
+  has_many :following, through: :relations, source: :follower
+
+  # ログインユーザーがフォローされる情報を取得するアソシエーション
+  has_many :passive_relations, class_name: 'Relation', foreign_key: :follower_id, dependent: :destroy, inverse_of: :follower
+  has_many :followers, through: :passive_relations, source: :user
+
   has_one_attached :icon
   has_one_attached :header
   validates :phone_number, presence: true

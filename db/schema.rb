@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_10_210401) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_13_070514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_10_210401) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "tweet_id"], name: "index_favorites_on_user_id_and_tweet_id", unique: true
+  end
+
+  create_table "relations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "follower_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "follower_id"], name: "index_relations_on_user_id_and_follower_id", unique: true
   end
 
   create_table "retweets", force: :cascade do |t|
@@ -118,6 +126,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_10_210401) do
   add_foreign_key "comments", "users"
   add_foreign_key "favorites", "tweets"
   add_foreign_key "favorites", "users"
+  add_foreign_key "relations", "users"
+  add_foreign_key "relations", "users", column: "follower_id"
   add_foreign_key "retweets", "tweets"
   add_foreign_key "retweets", "users"
   add_foreign_key "tweets", "users"
