@@ -15,6 +15,8 @@ module Api
       def create
         @follow = current_api_v1_user.relations.build(follower_id: @user.id)
         if @follow.save
+          # 通知機能を呼び出し
+          @user.create_notification_follow!(current_api_v1_user)
           render json: { status: 'SUCCESS', message: 'Have created relation successfully', data: { id: @follow.id } }
         else
           render json: { status: 'ERROR', message: 'Relation not saved' }

@@ -44,6 +44,16 @@ RSpec.describe 'Api::V1::Tweets' do
       expect(response).to have_http_status(:ok)
     end
 
+    it '新しい投稿を作成するが、失敗する' do
+      auth_tokens = sign_in(user_a)
+
+      # 空文字
+      valid_params = { content: '' }
+
+      # 空文字で投稿するので、バリデーションエラーで投稿の件数は増えないことを検証する
+      expect { post '/api/v1/tweets', params: { tweet: valid_params }, headers: auth_tokens }.not_to change(Tweet, :count)
+    end
+
     it '投稿を全件取得' do
       auth_tokens = sign_in(user_a)
       # createはFactoryBot.createの略

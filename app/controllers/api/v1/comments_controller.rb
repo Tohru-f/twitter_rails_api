@@ -15,8 +15,9 @@ module Api
       def create
         @comment = @tweet.comments.new(comment_params)
         @comment.user = current_api_v1_user
-        # binding.pry
         if @comment.save
+          # 通知機能の実装
+          @comment.tweet.create_notification_comment!(current_api_v1_user, @comment.id)
           render json: { status: 'SUCCESS', message: 'Comment successfully saved', data: { comment: @comment } }
         else
           render json: { status: 'ERROR', message: 'Comment not saved' }

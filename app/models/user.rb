@@ -18,6 +18,9 @@ class User < ApplicationRecord
   has_many :passive_relations, class_name: 'Relation', foreign_key: :follower_id, dependent: :destroy, inverse_of: :follower
   has_many :followers, through: :passive_relations, source: :user
 
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy, inverse_of: :visitor
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy, inverse_of: :visited
+
   has_one_attached :icon
   has_one_attached :header
   validates :phone_number, presence: true
@@ -36,6 +39,22 @@ class User < ApplicationRecord
       user.phone_number = '090-1234-5678'
       user.birthday = '20250101'
     end
+  end
+
+  # def token_validation_response
+  #   Api::V1::UserSerializer.new(self, root: false)
+  # end
+
+  def create_notification_follow!(current_api_v1_user)
+    temp = current_api_v1_user.active_notifications.where(visited_id: id, action: 'follow')
+    return if temp.present?
+
+    notification = current_api_v1_user.active_notifications.new(
+      visited_id: id,
+      action: 'follow'
+    )
+    # 自分で自分のフォローはしない・できないので、current_api_vi_user.id == user_idの判別は不要
+    notification.save if notification.valid?
   end
 
   # オブジェクトをJSON形式に変換する際の出力内容をカスタマイズする。通常の属性(idやname)に加えてimage_urlsメソッドの返り値も含める

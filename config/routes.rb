@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       resources :images, only: %i[create]
       resources :users, only: %i[show]
       resources :comments, only: %i[create destroy]
+      resources :notifications, only: %i[index]
     end
   end
 end

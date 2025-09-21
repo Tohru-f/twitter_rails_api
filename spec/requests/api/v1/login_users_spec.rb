@@ -22,19 +22,17 @@ RSpec.describe 'Api::V1::LoginUsers' do
     end
 
     # it 'ログインユーザーの情報を更新する' do
-    #   pending "add some examples (or delete) #{__FILE__}"
+    #   auth_tokens = sign_in(user_a)
 
-    # auth_tokens = sign_in(user_a)
+    #   valid_params = { name: '山田太郎', header_id: [], icon_id: [] }
 
-    # valid_params = { name: '山田太郎' }
+    #   put '/api/v1/login_users', params: { login_user: valid_params }, headers: auth_tokens
 
-    # put '/api/v1/login_users', params: {login_user: valid_params}, headers: auth_tokens
+    #   json = response.parsed_body
 
-    # json = response.parsed_body
+    #   expect { json['data']['user']['name'] }.to eq(user_a['name'])
 
-    # expect{json['data']['user']['name']}.to eq(user_a['name'])
-
-    # expect(response).to have_http_status(:success)
+    #   expect(response).to have_http_status(:success)
     # end
   end
 end

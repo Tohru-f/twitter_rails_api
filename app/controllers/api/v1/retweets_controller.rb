@@ -5,7 +5,10 @@ module Api
     class RetweetsController < ApplicationController
       def create
         @retweet = current_api_v1_user.retweets.build(tweet_id: params[:id])
+        tweet = Tweet.find(params[:id])
         if @retweet.save
+          # 通知機能呼び出し
+          tweet.create_notification!(current_api_v1_user, 'retweet', user_id: tweet.user.id)
           render json: { status: 'SUCCESS', message: 'Retweet successfully saved', data: { ID: @retweet.id } }
         else
           render json: { status: 'ERROR', message: 'Retweet not saved' }

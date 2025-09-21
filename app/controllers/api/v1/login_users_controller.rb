@@ -6,7 +6,11 @@ module Api
       def show
         render json: { status: 'SUCCESS', message: 'Have gotten user info', data: { user: current_api_v1_user } },
                include: [{ tweets: { methods: %i[image_urls], include: { user: { methods: %i[header_urls icon_urls] } } } },
-                         comments: { include: { user: { methods: %i[header_urls icon_urls] } } }]
+                         comments: { include: { user: { methods: %i[header_urls
+                                                                    icon_urls] } } }, active_notifications: { include: { visited: { methods: %i[header_urls
+                                                                                                                                                icon_urls] } } }, passive_notifications: { include: [{ visitor: { methods: %i[
+                                                                                                                                                  header_urls icon_urls
+                                                                                                                                                ] } }, :tweet] }]
       end
 
       def update
