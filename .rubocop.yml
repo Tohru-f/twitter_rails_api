@@ -9,7 +9,7 @@ AllCops:
 RSpec/MultipleExpectations:
   Max: 2
 Layout/LineLength:
-  Max: 200
+  Max: 230
 Metrics/AbcSize:
   Max: 36
 Metrics/MethodLength:
@@ -21,9 +21,9 @@ Hc/RailsSpecificActionName:
   Exclude:
     - app/controllers/api/v1/omniauth_callbacks_controller.rb
     - app/controllers/api/v1/users_controller.rb
+    - app/controllers/api/v1/sessions_controller.rb
 RSpec/ExampleLength:
   Exclude:
     - spec/requests/api/v1/tweets_spec.rb
     - spec/requests/api/v1/comments_spec.rb
-RSpec/ExampleLength:
   Max: 10

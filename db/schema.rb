@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_13_070514) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_19_103653) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,21 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_13_070514) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "tweet_id"], name: "index_favorites_on_user_id_and_tweet_id", unique: true
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "visitor_id", null: false
+    t.bigint "visited_id", null: false
+    t.bigint "tweet_id"
+    t.bigint "comment_id"
+    t.string "action", default: "", null: false
+    t.boolean "checked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_notifications_on_comment_id"
+    t.index ["tweet_id"], name: "index_notifications_on_tweet_id"
+    t.index ["visited_id"], name: "index_notifications_on_visited_id"
+    t.index ["visitor_id"], name: "index_notifications_on_visitor_id"
   end
 
   create_table "relations", force: :cascade do |t|
@@ -126,6 +141,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_13_070514) do
   add_foreign_key "comments", "users"
   add_foreign_key "favorites", "tweets"
   add_foreign_key "favorites", "users"
+  add_foreign_key "notifications", "comments"
+  add_foreign_key "notifications", "tweets"
+  add_foreign_key "notifications", "users", column: "visited_id"
+  add_foreign_key "notifications", "users", column: "visitor_id"
   add_foreign_key "relations", "users"
   add_foreign_key "relations", "users", column: "follower_id"
   add_foreign_key "retweets", "tweets"

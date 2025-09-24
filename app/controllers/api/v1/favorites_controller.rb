@@ -5,9 +5,11 @@ module Api
     class FavoritesController < ApplicationController
       def create
         @favorite = current_api_v1_user.favorites.build(tweet_id: params[:id])
-
+        tweet = Tweet.find(params[:id])
         if @favorite.save
-          render json: { status: 'SUCCESS', message: 'Favorite successfully saved', data: { ID: @favorite.id } }
+          # 通知機能を呼び出し
+          tweet.create_notification!(current_api_v1_user, 'favorite', user_id: tweet.user.id)
+          render json: { status: 'SUCCESS', message: 'Favorite successfully saved', data: { id: @favorite.id } }
         else
           render json: { status: 'ERROR', message: 'Favorite not saved' }
         end
