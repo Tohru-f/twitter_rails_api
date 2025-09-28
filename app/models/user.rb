@@ -10,6 +10,11 @@ class User < ApplicationRecord
   has_many :retweets, dependent: :destroy
   has_many :favorites, dependent: :destroy
 
+  # チャットグループを作るためのアソシエーション
+  has_many :entries, dependent: :destroy
+  has_many :groups, through: :entries
+  has_many :messages, dependent: :destroy
+
   # ログインユーザーがフォローするユーザー情報を取得するアソシエーション
   has_many :relations, dependent: :destroy
   has_many :following, through: :relations, source: :follower

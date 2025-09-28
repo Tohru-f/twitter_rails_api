@@ -32,6 +32,17 @@ module Api
         end
       end
 
+      def search
+        # binding.pry
+        if params[:name].present?
+          @users = User.where('name LIKE ?', "%#{params[:name]}%").where.not(id: current_api_v1_user.id)
+          render json: { status: 'SUCCESS', message: "Have gotten found users' info", data: { users: @users, methods: %i[header_urls icon_urls] } }
+        else
+          @users = []
+          render json: { status: 'ERROR', message: "No users' info received", data: { users: @users, methods: %i[header_urls icon_urls] } }
+        end
+      end
+
       private
 
       def set_user

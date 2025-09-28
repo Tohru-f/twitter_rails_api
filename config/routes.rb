@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       delete 'tweets/:id/favorites' => 'favorites#destroy'
       post 'users/:id/follow' => 'users#create'
       delete 'users/:id/unfollow' => 'users#destroy'
+      get 'users/search' => 'users#search'
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/registrations',
         omniauth_callbacks: 'api/v1/omniauth_callbacks'
@@ -30,6 +31,9 @@ Rails.application.routes.draw do
       resources :users, only: %i[show]
       resources :comments, only: %i[create destroy]
       resources :notifications, only: %i[index]
+      resources :groups, only: %i[create index] do
+        resources :messages, only: %i[index create]
+      end
     end
   end
 end
