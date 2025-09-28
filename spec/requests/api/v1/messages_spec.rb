@@ -30,13 +30,19 @@ RSpec.describe 'Api::V1::Messages' do
       group_id = response.parsed_body['data']['group']['id']
 
       # グループにメッセージを投稿する
-      post "/api/v1/groups/#{group_id}/messages", params: { content: 'テスト' }, headers: auth_tokens
+      post "/api/v1/groups/#{group_id}/messages", params: { content: 'テスト1' }, headers: auth_tokens
 
-      # 投稿した内容を取得
-      json = response.parsed_body['data']['message']['content']
+      # グループにメッセージを投稿する
+      post "/api/v1/groups/#{group_id}/messages", params: { content: 'テスト2' }, headers: auth_tokens
 
-      # 投稿した内容と期待値が一致するかどうか検証する
-      expect(json).to eq('テスト')
+      # グループのメッセージを全て取得する
+      get "/api/v1/groups/#{group_id}/messages", headers: auth_tokens
+
+      # 取得したデータからメッセージ部分を抜粋する
+      json = response.parsed_body['data']['messages']
+
+      # 取得したメッセージ数が期待した数量と一致することを検証する
+      expect(json.length).to eq(2)
 
       expect(response).to have_http_status(:success)
     end
