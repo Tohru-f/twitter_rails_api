@@ -14,7 +14,7 @@ module Api
         @bookmark = current_api_v1_user.bookmarks.build(tweet_id: params[:tweet_id])
         # binding.pry
         if @bookmark.save
-          render json: { status: 'SUCCESS', message: 'Bookmark have been saved successfully', data: { bookmark: @bookmark } }
+          render json: { status: 'SUCCESS', message: 'Bookmark have been saved successfully', data: { bookmark: @bookmark } }, include: { user: { methods: %i[header_urls icon_urls] } }
         else
           render json: { status: 'ERROR', message: 'Bookmark not saved' }
         end
