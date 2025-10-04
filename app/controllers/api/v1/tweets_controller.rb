@@ -14,7 +14,7 @@ module Api
         # 投稿データに付随してユーザーデータを取得、画像取得に必要なメソッドも追加で指定
         render json: { status: 'SUCCESS', message: 'Have gotten all tweets', data: { tweets: @tweets, count: Tweet.all.count } },
                include: [{ user: { methods: %i[header_urls icon_urls], include: %i[tweets followers following] } }, :comments,
-                         { retweets: { include: { user: { methods: %i[header_urls icon_urls] } } } }, { favorites: { include: { user: { methods: %i[header_urls icon_urls] } } } }]
+                         { retweets: { include: { user: { methods: %i[header_urls icon_urls] } } } }, { favorites: { include: { user: { methods: %i[header_urls icon_urls] } } } }, { bookmarks: { include: { user: { methods: %i[header_urls icon_urls] } } } }]
       end
 
       def show
