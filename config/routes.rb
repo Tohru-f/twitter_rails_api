@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[show]
       resources :comments, only: %i[create destroy]
       resources :notifications, only: %i[index]
+      resources :bookmarks, only: %i[create index destroy]
       resources :groups, only: %i[create index] do
         resources :messages, only: %i[index create]
       end

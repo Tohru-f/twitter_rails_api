@@ -9,7 +9,7 @@ module Api
         if @favorite.save
           # 通知機能を呼び出し
           tweet.create_notification!(current_api_v1_user, 'favorite', user_id: tweet.user.id)
-          render json: { status: 'SUCCESS', message: 'Favorite successfully saved', data: { id: @favorite.id } }
+          render json: { status: 'SUCCESS', message: 'Favorite successfully saved', data: { favorite: @favorite } }, include: { user: { methods: %i[header_urls icon_urls] } }
         else
           render json: { status: 'ERROR', message: 'Favorite not saved' }
         end
@@ -18,7 +18,7 @@ module Api
       def destroy
         @favorite = current_api_v1_user.favorites.find_by(tweet_id: params[:id])
         if @favorite.destroy
-          render json: { status: 'ERROR', message: 'Favorite successfully deleted' }
+          render json: { status: 'SUCCESS', message: 'Favorite successfully deleted' }
         else
           render json: { status: 'ERROR', message: 'Favorite not deleted' }
         end
