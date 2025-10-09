@@ -18,6 +18,14 @@ class Tweet < ApplicationRecord
     temp.present?
   end
 
+  # ユーザーデータを取得する時に論理削除されたユーザーを含まない
+  scope :from_active_users, -> { joins(:user).merge(User.kept) }
+
+  # discard(gem)を使用できるように設定
+  include Discard::Model
+  # デフォルトの取得内容を変更。これによりdiscardで論理削除されたデータは含まない。
+  default_scope -> { kept }
+
   def create_notification!(current_api_v1_user, action, user_id:, comment_id: nil)
     # イイね、若しくはリツイートされている場合は処理を終了する
     return if check_notification(current_api_v1_user, action) && action == %w[favorite retweet]

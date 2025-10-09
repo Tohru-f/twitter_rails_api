@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_05_210411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.bigint "tweet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_bookmarks_on_discarded_at"
     t.index ["tweet_id"], name: "index_bookmarks_on_tweet_id"
     t.index ["user_id", "tweet_id"], name: "index_bookmarks_on_user_id_and_tweet_id", unique: true
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
@@ -58,6 +60,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.bigint "tweet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_comments_on_discarded_at"
     t.index ["tweet_id"], name: "index_comments_on_tweet_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -67,6 +71,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.bigint "group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_entries_on_discarded_at"
     t.index ["group_id", "user_id"], name: "index_entries_on_group_id_and_user_id", unique: true
     t.index ["group_id"], name: "index_entries_on_group_id"
     t.index ["user_id"], name: "index_entries_on_user_id"
@@ -77,12 +83,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.bigint "tweet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_favorites_on_discarded_at"
     t.index ["user_id", "tweet_id"], name: "index_favorites_on_user_id_and_tweet_id", unique: true
   end
 
   create_table "groups", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_groups_on_discarded_at"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -91,6 +101,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_messages_on_discarded_at"
     t.index ["group_id"], name: "index_messages_on_group_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
@@ -104,7 +116,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.boolean "checked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
     t.index ["comment_id"], name: "index_notifications_on_comment_id"
+    t.index ["discarded_at"], name: "index_notifications_on_discarded_at"
     t.index ["tweet_id"], name: "index_notifications_on_tweet_id"
     t.index ["visited_id"], name: "index_notifications_on_visited_id"
     t.index ["visitor_id"], name: "index_notifications_on_visitor_id"
@@ -115,6 +129,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.bigint "follower_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_relations_on_discarded_at"
     t.index ["user_id", "follower_id"], name: "index_relations_on_user_id_and_follower_id", unique: true
   end
 
@@ -123,6 +139,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.bigint "tweet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_retweets_on_discarded_at"
     t.index ["user_id", "tweet_id"], name: "index_retweets_on_user_id_and_tweet_id", unique: true
   end
 
@@ -139,6 +157,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_tweets_on_discarded_at"
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
@@ -164,7 +184,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_095401) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "phone_number", default: "", null: false
+    t.datetime "discarded_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
