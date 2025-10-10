@@ -22,5 +22,33 @@ RSpec.describe 'Api::V1::Users' do
 
       expect(response).to have_http_status(:success)
     end
+
+    it 'ユーザーが退会する(論理削除)' do
+      auth_tokens = sign_in(user_a)
+
+      # 退会してユーザーを論理削除する
+      delete '/api/v1/users', headers: auth_tokens
+
+      json = response.parsed_body
+
+      # 退会した時のメッセージが期待したものであることを検証する
+      expect(json['message']).to eq('have soft-deleted user successfully')
+
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'ユーザーが退会(論理削除)した後はログインできない' do
+      auth_tokens = sign_in(user_a)
+
+      # 退会(論理削除)する
+      delete '/api/v1/users', headers: auth_tokens
+      # サインアウトする
+      delete '/api/v1/auth/sign_out', headers: auth_tokens
+
+      # 再度同じユーザーでログインを試みる
+      sign_in(user_a)
+      # 論理削除されたユーザーではログインできないので、401の認証エラーが発生することを検証する
+      expect(response).to have_http_status(:unauthorized)
+    end
   end
 end

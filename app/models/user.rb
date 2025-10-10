@@ -11,6 +11,29 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
 
+  # discard(gem)を使用できるように設定
+  include Discard::Model
+  # デフォルトの取得内容を変更。これによりdiscardで論理削除されたデータは含まない。
+  default_scope -> { kept }
+  # ログインしてくるユーザーが論理削除されていないことを確認
+  def active_for_authentication?
+    super && kept?
+  end
+
+  # groupモデルを除いてユーザーが論理削除されたら関連するデータも論理削除する
+  after_discard do
+    passive_notifications.discard_all
+    active_notifications.discard_all
+    relations.discard_all
+    entries.discard_all
+    bookmarks.discard_all
+    comments.discard_all
+    favorites.discard_all
+    messages.discard_all
+    retweets.discard_all
+    tweets.discard_all
+  end
+
   # チャットグループを作るためのアソシエーション
   has_many :entries, dependent: :destroy
   has_many :groups, through: :entries

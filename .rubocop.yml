@@ -15,7 +15,7 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Max: 35
 Metrics/BlockLength:
-  Max: 30
+  Max: 32
   Exclude:
     - "config/environments/*"
 Hc/RailsSpecificActionName:

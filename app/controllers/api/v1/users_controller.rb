@@ -43,6 +43,14 @@ module Api
         end
       end
 
+      def discard
+        if current_api_v1_user.discard
+          render json: { status: 'SUCCESS', message: 'have soft-deleted user successfully' }
+        else
+          render json: { status: 'ERROR', message: 'User not soft-deleted' }
+        end
+      end
+
       private
 
       def set_user
